@@ -140,6 +140,33 @@ namespace OpenAsset.RestClient.Library
         }
         #endregion
 
+        /// <summary>
+        /// https://developers.openasset.com/#url-arrays-and-objects
+        /// https://stackoverflow.com/questions/75667615/how-to-filter-projects-by-custom-fields-in-openasset-api-v1
+        /// Example: <your_domain>.openasset.com/REST/1/Files?limit=0&offset=0&category_id=3&filterBy[keyword_id]=2134&filterBy[employee_number]=18211
+        /// </summary>
+        #region Filters
+        public void SetFilterBy(string parameter, string value)
+        {
+            parameter = $"filterBy[{parameter}]";
+            _filters[parameter] = value;
+        }
+
+        public void RemoveFilterBy(string parameter)
+        {
+            parameter = $"filterBy[{parameter}]";
+            _filters.Remove(parameter);
+        }
+
+        public string GetFilterBy(string parameter)
+        {
+            parameter = $"filterBy[{parameter}]";
+            if (_filters.ContainsKey(parameter))
+                return _filters[parameter];
+            return "";
+        }
+        #endregion
+
         #region Filter Validator
         private void validateParameter(string parameter)
         {
